@@ -10,11 +10,30 @@ To use this client, you must first obtain your personal access to the Web Servic
 * CURL, JSON and OpenSSL extensions activated
 * A authentication details from HBL
 
-# Release history
+# Installation
 
-The current release is version 1.0.
+The preferred method of installation is via [Composer](https://getcomposer.org/). Run the following command to install the package and add it as a requirement to your project's composer.json:
+
+```
+composer require masoodrehman/php-payment-gateway-hbl
+```
 
 # Example
+
+To create an HBL client
+
+```php
+$hblPay = new Client([
+    "env" => Constant::ENV_SANDBOX,
+    "authentication" => new AuthenticationFields([
+        "USER_ID" => "user-id",
+        "PASSWORD" => "password",
+        "CHANNEL" => "channel-name",
+        "RETURN_URL" => "http://localhost:8001/example/success.php", // replace with your own
+        "CANCEL_URL" => "http://localhost:8001/example/fail.php" // replace with your own
+    ])
+]);
+```
 
 A basic example with minimum required parameters in request payload.
 
@@ -64,19 +83,7 @@ A basic example with minimum required parameters in request payload.
             ])
         ]);
     
-        // Client initialization.
-        $hblPay = new Client([
-            "env" => Constant::ENV_SANDBOX,
-            "authentication" => new AuthenticationFields([
-                "USER_ID" => "user-id",
-                "PASSWORD" => "password",
-                "CHANNEL" => "channel-name",
-                "RETURN_URL" => "http://localhost:8001/example/success.php", // replace with your own
-                "CANCEL_URL" => "http://localhost:8001/example/fail.php" // replace with your own
-            ])
-        ]);
-    
-        // This method will get session from hbl and redirect to hbl portal for payment.
+        // Call service
         $hblPay->getSessionAndRedirectToPortal($checkoutReq);
     }
     catch (Exception $e)
@@ -84,6 +91,15 @@ A basic example with minimum required parameters in request payload.
         echo $e->getMessage();
     }
 ```
+
+## API Summary 
+
+Method                                                  | Description
+------------------------------------------------------- | ----------------------------------------------
+getSessionId(CheckoutReq $checkoutReq)                  | Get session id from HBL
+redirectToPortal(string $sessionId)                     | Take session id as parameter and redirect to HBL portal
+getSessionAndRedirectToPortal(CheckoutReq $checkoutReq) | This method do both work in single request, Get session from HBL and redirect to HBL portal for payment.
+
 
 ### Test Cards:
 ```
