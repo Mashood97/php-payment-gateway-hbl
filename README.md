@@ -100,6 +100,10 @@ getSessionId(CheckoutReq $checkoutReq)                  | Get session id from HB
 redirectToPortal(string $sessionId)                     | Take session id as parameter and redirect to HBL portal
 getSessionAndRedirectToPortal(CheckoutReq $checkoutReq) | This method do both work in single request, Get session from HBL and redirect to HBL portal for payment.
 
+### Public Key
+
+HBL required RSA 4096 bit key which they use for data encryption in order to secure the
+request payload over network layer. You can generate your own key and replaced with the exact same name as mentioned in [certificate directory](src/HBLPay/Certificates).
 
 ### Test Cards:
 ```
